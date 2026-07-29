@@ -1,1 +1,25 @@
-<button onclick="const utter = new SpeechSynthesisUtterance('<PARTOFSP PART=\'modifier\' PART=\'modifier\' PART=\'modifier\' PART=\'modifier\' PART=\'modifier\' PART=\'modifier\' PART=\'modifier\' PART=\'modifier\' PART=\'modifier\' PART=\'modifier\' PART=\'modifier\' PART=\'modifier\'></PARTOFSP>'); speechSynthesis.speak(utter);">Uji SSML Overflow</button>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Web Speech API Security Test (Internal Use Only)</title>
+</head>
+<body>
+    <h3>Test Audio Spoofing Detection</h3>
+    <button onclick="testSpoofing()">Test Speech Synthesis</button>
+    
+    <script>
+    function testSpoofing() {
+        // Test legitimate use
+        const utter = new SpeechSynthesisUtterance('This is a test.');
+        speechSynthesis.speak(utter);
+        
+        // Test for visual/audio mismatch scenarios
+        console.log('Testing visual-audio mismatch detection');
+        
+        // Log all speech events for analysis
+        utter.onstart = () => console.log('Speech started');
+        utter.onend = () => console.log('Speech ended');
+    }
+    </script>
+</body>
+</html>
