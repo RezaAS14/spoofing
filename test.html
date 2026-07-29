@@ -1,25 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Web Speech API Security Test (Internal Use Only)</title>
+    <title>Audibility Spoofing Test</title>
 </head>
 <body>
-    <h3>Test Audio Spoofing Detection</h3>
-    <button onclick="testSpoofing()">Test Speech Synthesis</button>
+    <h3>Test: Silent Speech Synthesis</h3>
+    <p>Klik tombol di bawah. Perhatikan ikon speaker di tab browser Anda.</p>
+    <p>Jika browser Anda *belum* diperbarui dengan patch terbaru, tab ini akan menunjukkan ikon speaker meskipun tidak ada suara yang diputar.</p>
     
+    <button onclick="silentSpoof()">Mulai Spoofing (Diam)</button>
+
     <script>
-    function testSpoofing() {
-        // Test legitimate use
-        const utter = new SpeechSynthesisUtterance('This is a test.');
-        speechSynthesis.speak(utter);
-        
-        // Test for visual/audio mismatch scenarios
-        console.log('Testing visual-audio mismatch detection');
-        
-        // Log all speech events for analysis
-        utter.onstart = () => console.log('Speech started');
-        utter.onend = () => console.log('Speech ended');
-    }
+        function silentSpoof() {
+            // Membuat utterance dengan volume 0.0 (senyap)
+            const utter = new SpeechSynthesisUtterance('Ini adalah pesan rahasia yang tidak terdengar.');
+            utter.volume = 0.0; // Kunci dari kerentanan
+            
+            // Memulai speech synthesis
+            speechSynthesis.speak(utter);
+            
+            // Feedback untuk penguji
+            console.log('Speech synthesis dengan volume 0.0 telah dimulai.');
+            alert('Periksa tab browser Anda! Seharusnya ada ikon speaker, meskipun tidak ada suara.');
+        }
     </script>
 </body>
 </html>
